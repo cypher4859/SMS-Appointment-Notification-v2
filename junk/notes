@@ -1,0 +1,8 @@
+we can DEFINITELY use JSON to keep track of everything and do the things.
+
+remember	
+	- db.<colletions>.insert_many(<a json deserialized object>)
+	- a deserialized object can be loaded into the database as an document or interables of documents
+
+
+
