@@ -1,6 +1,7 @@
 #!/usr/bin/python3.7
 
 import json
+import ipdb as pdb
 from flask import Flask
 from flask import request
 from flask import jsonify
@@ -42,15 +43,16 @@ def get_message_deliv_status():
 
 ####Setters
 @app.route("/receive_message_status", methods=['POST'])
-def incoming_message_status():
+def receive_message_status():
 	if request.method == 'POST':
-		message_sid = request.values.get('MessageSid', None)
-		message_status = request.values.get('MessageStatus',None)
+		message_sid = request.json['MessageSid']
+		message_status = request.json['MessageStatus']
+		
 
-		reporter = report(message_sid,message_status)
-		reporter.report_delivery_status()
+		#pdb.set_trace()
+		receiver = receive()
+		receiver.record_status(message_sid, message_status)
 
-		print(message_status)
 		return ('', 204)
 
 

@@ -1,5 +1,6 @@
 #!/usr/bin/python3.7
 
+import ipdb as pdb
 import json
 import os
 from pymongo import MongoClient
@@ -132,6 +133,15 @@ def confirm_appt_status(patient, doctor, status):
 		#print(result.modified_count)
 	except:
 		print('fucked up')
+
+def update_message_delivery_status(message_sid, status):
+	try:
+		client = MongoClient('mongodb://localhost:27017/')
+		db = client.test_database
+		#pdb.set_trace()
+		db.inventory.update({'message_sid': 'SM5bf24936a02b470ab885e2d32287bc1f'},{'$set': {'delivery_status': 'delivered'}})	
+	except:
+		print('fuck this place')
 
 def get_all_collections():
 	try:

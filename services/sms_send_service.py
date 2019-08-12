@@ -50,7 +50,8 @@ class sms:
 					"doctor_number" : {"type" : "string"},
 					"acct" : {"type" : "string"},
 					"token" : {"type" : "string"},
-					"secret_name" : {"type" : "string"}
+					"secret_name" : {"type" : "string"},
+					"delivery_status" : {"type" : "string"}
 				}
 			},
 		}

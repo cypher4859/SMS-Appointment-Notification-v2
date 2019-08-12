@@ -1,21 +1,21 @@
+import ipdb as pdb
 import json
 from twilio.rest import Client
 from sms_v2.utilities import dev as util
 
 class report:
-	def __init__(self, message, patient="", doctor_office_number="", message_sid="", message_stat=""):
+	def __init__(self, message="", patient="", doctor_office_number="", message_sid="", message_stat=""):
 		self.sid = message_sid
 		self.deliv_stat = message_stat
 		self.patient = patient
 		self.doctor_office_number = doctor_office_number
 		self.message = message
 
-	def report_devliery_status(self):
-		sid = self.sid
-		stat = self.deliv_stat
-
+	def report_delivery_status(self, sid, stat):
+		#pdb.set_trace()
 		# UPDATE DB
 		# Find Row with MessageSid, Update its delivery status
+		util.update_message_delivery_status(sid, stat)
 
 	def report_appointment_status(self):
 		patient = self.patient[2:]
@@ -28,15 +28,6 @@ class report:
 			#update with Confirmed
 			util.confirm_appt_status(patient, office_phone_number, confirmation)
 
-
-			# Update DB
-			# Find appointment that has `patient` number and `office_phone_number`
-			# Set appointment status to `Confirmed` or `Cancelled`
-			
-
-		#else:
-			#pass
-			# respond negatively? 
 
 	def validate_reply(self, reply):
 		if(reply == "Y"):
