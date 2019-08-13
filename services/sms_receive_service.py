@@ -9,10 +9,10 @@ class receive:
 		self.body = message_body
 		self.to = message_to
 
-	def record_response(self):
+	def record_response(self, fro, body, to):
 		#import ipdb; ipdb.set_trace()
-		reporter = report(self.body, self.fro, self.to)
-		reporter.report_appointment_status()
+		reporter = report()
+		reporter.report_appointment_status(fro, body, to)
 
 	def record_status(self, sid, status):
 		reporter = report()

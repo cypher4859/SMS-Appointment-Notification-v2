@@ -64,7 +64,7 @@ def receive_sms_reply():
 		message_to = request.json['to']
 
 		receiver = receive(message_from, body, message_to)
-		receiver.record_response()
+		receiver.record_response(message_from, body, message_to)
 		return ('', 204)
 
 

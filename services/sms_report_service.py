@@ -17,10 +17,10 @@ class report:
 		# Find Row with MessageSid, Update its delivery status
 		util.update_message_delivery_status(sid, stat)
 
-	def report_appointment_status(self):
-		patient = self.patient[2:]
-		office_phone_number = self.doctor_office_number[2:]
-		reply = self.message
+	def report_appointment_status(self, patient, message, doctor_office_number):
+		patient = patient[2:]
+		office_phone_number = doctor_office_number[2:]
+		reply = message
 
 		#import ipdb; ipbd.set_trace()
 		is_valid_response, confirmation = self.validate_reply(reply)
