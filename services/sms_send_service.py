@@ -62,9 +62,7 @@ class sms:
 			return False
 
 	def send(self, package):
-		#import ipdb as pdb; pdb.set_trace()
 		#twilio python sender
-
 		# Get account data
 		secret_name = package['secret_name']
 
@@ -73,18 +71,17 @@ class sms:
 			package['token'] = v.request_token()
 		
 		client = Client(package['acct'], package['token'])
-
+		import ipdb as pdb; pdb.set_trace()
+		print("Make sure to set the correct ngrok status_callback URL\n ngrok http 5000")
 		message = client.messages.create(
 			to="+1"+package['patient_number'],
 			from_="+1"+package['doctor_number'],
 			body=package['message'],
-			status_callback="")
+			status_callback="http://9af0febb.ngrok.io/receive_message_status")
 
 		package['message_sid'] = message.sid
 
 		self.load_message_into_database(package)
-
-		#return 'It worked'
 
 	def load_message_into_database(self, package):
 		util.insert_one_appointment(package)

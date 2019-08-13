@@ -15,6 +15,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
+	pdb.set_trace()
 	return "Hello World"
 
 @app.route("/read_all_rows")
@@ -45,11 +46,10 @@ def get_message_deliv_status():
 @app.route("/receive_message_status", methods=['POST'])
 def receive_message_status():
 	if request.method == 'POST':
-		message_sid = request.json['MessageSid']
-		message_status = request.json['MessageStatus']
-		
+		# To test!
 
-		#pdb.set_trace()
+		message_sid = request.values.get('MessageSid', None)
+		message_status = request.values.get('MessageStatus', None)
 		receiver = receive()
 		receiver.record_status(message_sid, message_status)
 
@@ -63,7 +63,6 @@ def receive_sms_reply():
 		body = request.json['body']
 		message_to = request.json['to']
 
-		#import ipdb; ipdb.set_trace()
 		receiver = receive(message_from, body, message_to)
 		receiver.record_response()
 		return ('', 204)

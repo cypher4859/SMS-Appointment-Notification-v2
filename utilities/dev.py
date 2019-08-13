@@ -139,7 +139,7 @@ def update_message_delivery_status(message_sid, status):
 		client = MongoClient('mongodb://localhost:27017/')
 		db = client.test_database
 		#pdb.set_trace()
-		db.inventory.update({'message_sid': 'SM5bf24936a02b470ab885e2d32287bc1f'},{'$set': {'delivery_status': 'delivered'}})	
+		db.inventory.update({'message_sid': message_sid},{'$set': {'delivery_status': status}})	
 	except:
 		print('fuck this place')
 
