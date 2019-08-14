@@ -77,7 +77,7 @@ class sms:
 			to="+1"+package['patient_number'],
 			from_="+1"+package['doctor_number'],
 			body=package['message'],
-			status_callback="http://9af0febb.ngrok.io/receive_message_status")
+			status_callback="https://2171f442.ngrok.io/receive_message_status")
 
 		package['message_sid'] = message.sid
 

@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-	pdb.set_trace()
+	#pdb.set_trace()
 	return "Hello World"
 
 @app.route("/read_all_rows")
@@ -50,8 +50,10 @@ def receive_message_status():
 
 		message_sid = request.values.get('MessageSid', None)
 		message_status = request.values.get('MessageStatus', None)
+		message_acct = request.values.get('AccountSid', None)
+
 		receiver = receive()
-		receiver.record_status(message_sid, message_status)
+		receiver.record_status(message_sid, message_status, message_acct)
 
 		return ('', 204)
 

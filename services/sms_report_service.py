@@ -11,14 +11,14 @@ class report:
 		self.doctor_office_number = doctor_office_number
 		self.message = message
 
-	def report_delivery_status(self, sid, stat):
+	def report_delivery_status(self, sid, stat, acct):
 		#pdb.set_trace()
 		# UPDATE DB
 		# Find Row with MessageSid, Update its delivery status
-		util.update_message_delivery_status(sid, stat)
+		util.update_message_delivery_status(sid, stat, acct)
 
 	def report_appointment_status(self, patient, message, doctor_office_number):
-		patient = patient[2:]
+		patient_number = patient[2:]
 		office_phone_number = doctor_office_number[2:]
 		reply = message
 
@@ -26,7 +26,7 @@ class report:
 		is_valid_response, confirmation = self.validate_reply(reply)
 		if(is_valid_response):
 			#update with Confirmed
-			util.confirm_appt_status(patient, office_phone_number, confirmation)
+			util.confirm_appt_status(patient_number, office_phone_number, confirmation)
 
 
 	def validate_reply(self, reply):

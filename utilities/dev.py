@@ -134,12 +134,12 @@ def confirm_appt_status(patient, doctor, status):
 	except:
 		print('fucked up')
 
-def update_message_delivery_status(message_sid, status):
+def update_message_delivery_status(message_sid, status, acct):
 	try:
 		client = MongoClient('mongodb://localhost:27017/')
 		db = client.test_database
 		#pdb.set_trace()
-		db.inventory.update({'message_sid': message_sid},{'$set': {'delivery_status': status}})	
+		db.inventory.update({ "$and": [{'message_sid': message_sid}, {'acct': acct}]}, {'$set': {'delivery_status': status}})	
 	except:
 		print('fuck this place')
 
