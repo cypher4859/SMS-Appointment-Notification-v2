@@ -71,13 +71,13 @@ class sms:
 			package['token'] = v.request_token()
 		
 		client = Client(package['acct'], package['token'])
-		import ipdb as pdb; pdb.set_trace()
-		print("Make sure to set the correct ngrok status_callback URL\n ngrok http 5000")
+		#import ipdb as pdb; pdb.set_trace()
+		#print("Make sure to set the correct ngrok status_callback URL\n ngrok http 5000")
 		message = client.messages.create(
 			to="+1"+package['patient_number'],
 			from_="+1"+package['doctor_number'],
 			body=package['message'],
-			status_callback="https://2171f442.ngrok.io/receive_message_status")
+			status_callback="https://512daef5.ngrok.io/receive_message_status")
 
 		package['message_sid'] = message.sid
 

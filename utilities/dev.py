@@ -123,13 +123,13 @@ def find_docs(key=None, val=None):
 		print('fucked up')
 
 ####FIXXXXXX
-def confirm_appt_status(patient, doctor, status):
+def confirm_appt_status(patient, doctor, status, acct):
 	try:
 		client = MongoClient('mongodb://localhost:27017/')
 		db = client.test_database
 		#db.inventory.update_many({'phone':phone, 'atotal_id':aID, 'appointment':{'date':apptDate}}, 'appointment':{'status':'Confirmed'})
 		#import ipdb; ipdb.set_trace()
-		db.inventory.update_many({ "$and": [{"patient_number": patient}, {"doctor_number": doctor}, {"appointment.status": "Unconfirmed"}]},{"$set": {"appointment.status": status}})
+		db.inventory.update_many({ "$and": [{"patient_number": patient}, {"doctor_number": doctor}, {"appointment.status": "Unconfirmed"}, {"acct": acct}]},{"$set": {"appointment.status": status}})
 		#print(result.modified_count)
 	except:
 		print('fucked up')
