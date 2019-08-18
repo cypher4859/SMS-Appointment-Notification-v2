@@ -1,9 +1,11 @@
 #!/usr/bin/python3.7
 
-import ipdb as pdb
+#import ipdb as pdb
 import json
+from bson.son import SON
 import os
 from pymongo import MongoClient
+import datetime
 
 def get_template():
 	#Get the JSON template structure
@@ -127,10 +129,37 @@ def confirm_appt_status(patient, doctor, status, acct):
 	try:
 		client = MongoClient('mongodb://localhost:27017/')
 		db = client.test_database
-		#db.inventory.update_many({'phone':phone, 'atotal_id':aID, 'appointment':{'date':apptDate}}, 'appointment':{'status':'Confirmed'})
-		#import ipdb; ipdb.set_trace()
-		db.inventory.update_many({ "$and": [{"patient_number": patient}, {"doctor_number": doctor}, {"appointment.status": "Unconfirmed"}, {"acct": acct}]},{"$set": {"appointment.status": status}})
-		#print(result.modified_count)
+		pipeline = [{ '$match': { '$and': [ 
+			    {'patient_number': patient}, 
+			    {'doctor_number': doctor}, 
+			    {'appointment.status': "Unconfirmed"}, 
+			    {'acct': acct}
+			    ]}
+			},
+			{
+			    '$project' : {
+				'patient_number': 1,
+				'doctor_number': 1,
+				"appointment.status": 1,
+				"appointment.date": 1,
+				"appointment.fulldate" : 1,
+				'message_sid': 1,
+				'difference' : {
+				    '$abs' : {
+					'$subtract' : [datetime.datetime.utcnow(), "$appointment.fulldate"]
+				    }
+				}
+			    }
+			},
+			{
+			    '$sort' : SON({'difference' : 1})
+			},
+			{
+			    '$limit' : 1
+			}
+		]
+		document_to_update = list(db.inventory.aggregate(pipeline))[0]
+		db.inventory.update({'message_sid': document_to_update['message_sid']}, {'$set': {'appointment.status': status}})
 	except:
 		print('fucked up')
 
