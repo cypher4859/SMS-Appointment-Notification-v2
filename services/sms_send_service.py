@@ -54,6 +54,7 @@ class sms:
 							"date" : {"type" : "string"},
 							"time" : {"type" : "string"},
 							"status" : {"type" : "string"},
+							"timezone": {"type" : "string"}
 						}
 					},
 					"doctor" : {"type" : "string"},
@@ -63,7 +64,7 @@ class sms:
 					"acct" : {"type" : "string"},
 					"token" : {"type" : "string"},
 					"secret_name" : {"type" : "string"},
-					"delivery_status" : {"type" : "string"}
+					"delivery_status" : {"type" : "string"},
 				}
 			},
 		}

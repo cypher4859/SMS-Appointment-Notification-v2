@@ -5,6 +5,7 @@ class date:
 		self.date = original_date['date']
 		self.time = original_date['time']
 		self.status = original_date['status']
+		self.timezone = original_date['timezone']
 
 	def transform_get_full_date(self):
 		date = datetime.strptime(self.date, '%Y-%m-%d')
