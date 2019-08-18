@@ -1,7 +1,11 @@
 import json
+import jsonpickle
+from datetime import datetime
 from twilio.rest import Client
 from sms_v2.utilities import dev as util
-from .vault_request_service import vault_request
+from sms_v2.models.sms_model import sms_send_model
+from sms_v2.services.vault_request_service import vault_request
+from sms_v2.transformers.date_transformer import date
 from jsonschema import validate
 
 class sms:
@@ -14,7 +18,15 @@ class sms:
 			try:
 				#self.load_request_receipt_into_database()
 				for index, message in enumerate(self.json_payload):
-					self.send(message)
+					import ipdb; ipdb.set_trace()
+					sms_model = sms_send_model(message)
+
+					sms_model.token = self.get_vault_data(sms_model.secret_name, sms_model.acct)
+					sms_model.date_created = self.get_date_created()
+					sms_model.appointment = self.get_utc_appointment_date(sms_model.appointment)
+					sms_model.message_sid = self.send(sms_model)
+
+					self.load_message_into_database(sms_model.__dict__)
 					print("Successfully Sent!")
 				return index+1
 			except:
@@ -61,27 +73,32 @@ class sms:
 		except:
 			return False
 
-	def send(self, package):
-		#twilio python sender
-		# Get account data
-		secret_name = package['secret_name']
+	def get_vault_data(self, secret, sid):
+		v = vault_request(secret)
+		if(sid == v.request_sid()):
+			return v.request_token()
 
-		v = vault_request(secret_name)
-		if(package['acct'] == v.request_sid()):
-			package['token'] = v.request_token()
-		
-		client = Client(package['acct'], package['token'])
+	def get_date_created(self):
+		date = datetime.utcnow()
+		return date
+
+	def get_utc_appointment_date(self, mangled_date):
+		d = date(mangled_date)
+		return d.transform_get_full_date()
+
+
+
+	def send(self, sms_object):
+		client = Client(sms_object.acct, sms_object.token)
 		#import ipdb as pdb; pdb.set_trace()
 		#print("Make sure to set the correct ngrok status_callback URL\n ngrok http 5000")
 		message = client.messages.create(
-			to="+1"+package['patient_number'],
-			from_="+1"+package['doctor_number'],
-			body=package['message'],
-			status_callback="https://512daef5.ngrok.io/receive_message_status")
+			to = "+1" + sms_object.patient_number,
+			from_ = "+1" + sms_object.doctor_number,
+			body = sms_object.message,
+			status_callback="https://a9d96196.ngrok.io/receive_message_status")
 
-		package['message_sid'] = message.sid
-
-		self.load_message_into_database(package)
+		return message.sid
 
 	def load_message_into_database(self, package):
 		util.insert_one_appointment(package)
