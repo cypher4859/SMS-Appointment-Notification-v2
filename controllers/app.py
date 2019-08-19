@@ -88,13 +88,6 @@ def upload_appts():
 		final_result = "fuckk"
 		return ('', 204)
 
-@app.route("/schedule_message_delivery", methods=['POST'])
-def schedule_delivery():
-	if request.method == 'POST':
-		payload = request.json
-		try:
-			scheduler = sms_schedule_service(payload)
-			#
 
 if(__name__ == '__main__'):
     app.run(host="0.0.0.0", debug=True)
