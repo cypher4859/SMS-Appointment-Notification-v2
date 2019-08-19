@@ -1,6 +1,5 @@
 import json
 from twilio.rest import Client
-from sms_v2.utilities import dev as util
 from sms_v2.services.sms_report_service import report
 
 class receive:

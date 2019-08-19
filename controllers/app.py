@@ -8,8 +8,7 @@ from flask import jsonify
 from sms_v2.services.sms_send_service import sms as sms_service_send
 from sms_v2.services.sms_report_service import report
 from sms_v2.services.sms_receive_service import receive
-from sms_v2.utilities import dev as util
-
+from sms_v2.utilities.helper_functions import dev
 
 app = Flask(__name__)
 
@@ -20,7 +19,8 @@ def hello():
 
 @app.route("/read_all_rows")
 def get_rows():
-	x = util.read_all_appointments()
+	d = dev()
+	x = d.read_all_appointments()
 	return jsonify(str(x))
 
 
@@ -71,17 +71,13 @@ def receive_sms_reply():
 		return ('', 204)
 
 
-
-
-
-
 ## Doers
 @app.route("/notify_appointments", methods=['POST'])
 def upload_appts():
 	results = []
 	if request.method == 'POST':
-		#import ipdb as pdb; pdb.set_trace()
 		payload = request.json
+		#import ipdb; ipdb.set_trace()
 		try:
 			sms_sender = sms_service_send(payload)
 			res = sms_sender.load()
@@ -92,6 +88,13 @@ def upload_appts():
 		final_result = "fuckk"
 		return ('', 204)
 
+@app.route("/schedule_message_delivery", methods=['POST'])
+def schedule_delivery():
+	if request.method == 'POST':
+		payload = request.json
+		try:
+			scheduler = sms_schedule_service(payload)
+			#
 
 if(__name__ == '__main__'):
     app.run(host="0.0.0.0", debug=True)

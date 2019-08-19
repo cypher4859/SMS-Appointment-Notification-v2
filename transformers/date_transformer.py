@@ -12,6 +12,6 @@ class date:
 		time = datetime.strptime(self.time, '%I:%M%p')
 		final_date = datetime(date.year, date.month, date.day, time.hour, time.minute)
 
-		utc_date_object = { 'date': date, 'time': time, 'status': self.status, 'fulldate': final_date}
-
+		utc_date_object = { 'date': date, 'time': time, 'status': self.status, 'fulldate': final_date, 'timezone': self.timezone}
+		import ipdb; ipdb.set_trace()
 		return utc_date_object

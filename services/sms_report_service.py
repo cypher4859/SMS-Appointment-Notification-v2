@@ -2,6 +2,7 @@ import ipdb as pdb
 import json
 from twilio.rest import Client
 from sms_v2.utilities import dev as util
+from sms_v2.utilities.helper_functions import dev
 
 class report:
 	def __init__(self, message="", patient="", doctor_office_number="", message_sid="", message_stat=""):
@@ -15,7 +16,8 @@ class report:
 		#pdb.set_trace()
 		# UPDATE DB
 		# Find Row with MessageSid, Update its delivery status
-		util.update_message_delivery_status(sid, stat, acct)
+		d = dev()
+		d.update_message_delivery_status(sid, stat, acct)
 
 	def report_appointment_status(self, patient, message, doctor_office_number, acct_sid):
 		patient_number = patient[2:]
@@ -27,7 +29,8 @@ class report:
 		is_valid_response, confirmation = self.validate_reply(reply)
 		if(is_valid_response):
 			#update with Confirmed
-			util.confirm_appt_status(patient_number, office_phone_number, confirmation, acct)
+			d = dev()
+			d.confirm_appt_status(patient_number, office_phone_number, confirmation, acct)
 
 
 	def validate_reply(self, reply):
