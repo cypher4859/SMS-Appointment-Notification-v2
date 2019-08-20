@@ -14,7 +14,7 @@ class sms:
 
 	def load(self):
 		try:
-			isValid = self.validate_payload(self.json_payload)
+			isValid = self.validate_payload()
 			#Check here if it should be scheduled. If so, pass it to the scheduler service.
 			#The scheduler service should circle back around to this point when its time, then it'll send
 			#If not, continue
@@ -39,7 +39,7 @@ class sms:
 			print("Couldn't sanitize")
 			return
 
-	def validate_payload(self, payload):
+	def validate_payload(self):
 		#return False
 		#check the input
 		#test JSON aginst schema
@@ -73,7 +73,7 @@ class sms:
 			},
 		}
 		try:
-			validate(payload, schema=schema)
+			validate(self.json_payload, schema=schema)
 			return True
 		except:
 			return False
@@ -95,7 +95,7 @@ class sms:
 
 	def send(self, sms_object):
 		client = Client(sms_object.acct, sms_object.token)
-		import ipdb as pdb; pdb.set_trace()
+		#import ipdb as pdb; pdb.set_trace()
 		#print("Make sure to set the correct ngrok status_callback URL\n ngrok http 5000")
 		message = client.messages.create(
 			to = "+1" + sms_object.patient_number,
