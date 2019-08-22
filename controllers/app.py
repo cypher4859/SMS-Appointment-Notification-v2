@@ -44,30 +44,45 @@ def get_message_deliv_status():
 ####Setters
 @app.route("/receive_message_status", methods=['POST'])
 def receive_message_status():
-	if request.method == 'POST':
+	#if request.method == 'POST':
 		# To test!
 
-		message_sid = request.values.get('MessageSid', None)
-		message_status = request.values.get('MessageStatus', None)
-		message_acct = request.values.get('AccountSid', None)
+	#	message_sid = request.values.get('MessageSid', None)
+	#	message_status = request.values.get('MessageStatus', None)
+	#	message_acct = request.values.get('AccountSid', None)
 
-		receiver = receive()
-		receiver.record_status(message_sid, message_status, message_acct)
+	#	receiver = receive()
+	#	receiver.record_status(message_sid, message_status, message_acct)
+
+	#	return ('', 204)
+
+	if request.method == 'POST':
+		import ipdb; ipdb.set_trace()
+		receiver = receive(request.json['FormValues'])
+		receiver.record_status()
 
 		return ('', 204)
 
 
 @app.route("/receive_sms_reply", methods=['POST'])
 def receive_sms_reply():
-	if request.method == 'POST':
-		message_from = request.json['from']
-		body = request.json['body']
-		message_to = request.json['to']
-		message_acct = request.json['account_sid']
+	#if request.method == 'POST':
+	#	message_from = request.json['from']
+	#	body = request.json['body']
+	#	message_to = request.json['to']
+	#	message_acct = request.json['account_sid']
 
-		receiver = receive()
-		receiver.record_response(message_from, body, message_to, message_acct)
+	#	receiver = receive()
+	#	receiver.record_response(message_from, body, message_to, message_acct)
+	#	return ('', 204)
+
+
+
+	if request.method == 'POST':
+		receiver = receive(request.json)
+		receiver.record_response()
 		return ('', 204)
+
 
 
 ## Doers
@@ -75,10 +90,9 @@ def receive_sms_reply():
 def upload_appts():
 	results = []
 	if request.method == 'POST':
-		payload = request.json
-		#import ipdb; ipdb.set_trace()
+		collection_of_messages_to_send = request.json
 		try:
-			sms_sender = sms_service_send(payload)
+			sms_sender = sms_service_send(collection_of_messages_to_send)
 			res = sms_sender.load()
 			results.append(res)
 		except:
