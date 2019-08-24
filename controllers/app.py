@@ -1,5 +1,6 @@
 #!/usr/bin/python3.7
 
+import time
 import json
 from flask import Flask
 from flask import request
@@ -8,6 +9,8 @@ from sms_v2.services.sms_send_service import sms as sms_service_send
 from sms_v2.services.sms_report_service import report
 from sms_v2.services.sms_receive_service import receive
 from sms_v2.utilities.helper_functions import dev
+from sms_v2.models.receive_message_model import receive_message_model
+from sms_v2.models.receive_delivery_status_model import receive_delivery_status_model
 
 app = Flask(__name__)
 
@@ -44,49 +47,23 @@ def get_message_deliv_status():
 ####Setters
 @app.route("/receive_message_status", methods=['POST'])
 def receive_message_status():
-	#if request.method == 'POST':
-		# To test!
-
-	#	message_sid = request.values.get('MessageSid', None)
-	#	message_status = request.values.get('MessageStatus', None)
-	#	message_acct = request.values.get('AccountSid', None)
-
-	#	receiver = receive()
-	#	receiver.record_status(message_sid, message_status, message_acct)
-
-	#	return ('', 204)
-
-	#if request.method == 'POST':
-	#	import ipdb; ipdb.set_trace()
-	#	receiver = receive(request.json['FormValues'])
-	#	receiver.record_status()
-	
 	if(request.method == 'POST'):
-		import ipdb; ipdb.set_trace()
-		reporter = report(request.json['FormValues'])
-		reporter.reporter_delivery_status
+		#print(request.values)
+		deliv_model = receive_delivery_status_model(request.values)
+		reporter = report(deliv_model)
+		reporter.report_delivery_status()
 
 		return ('', 204)
 
 
 @app.route("/receive_sms_reply", methods=['POST'])
 def receive_sms_reply():
-	#if request.method == 'POST':
-	#	message_from = request.json['from']
-	#	body = request.json['body']
-	#	message_to = request.json['to']
-	#	message_acct = request.json['account_sid']
-
-	#	receiver = receive()
-	#	receiver.record_response(message_from, body, message_to, message_acct)
-	#	return ('', 204)
-
-
-
 	if request.method == 'POST':
-		receiver = receive(request.json)
-		receiver.record_response()
+		message_model = receive_message_model(request.json)
+		reporter = report(message_model)
+		reporter.report_appointment_status()
 		return ('', 204)
+
 
 
 

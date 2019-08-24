@@ -5,7 +5,7 @@ class receive_message_model(base_model):
 		self.message_from = payload['from']
 		self.message_body = payload['body']
 		self.message_to = payload['to']
-		self.acct = payload['sid']
+		self.acct = payload['account_sid']
 		self.error_code = payload['error_code']
 		self.error_message = payload['error_message']
 		self.num_media = payload['num_media']

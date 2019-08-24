@@ -45,7 +45,7 @@ class TestClass:
 		assert reporter.to is not None, 'reporter.to is null'
 		assert reporter.acct is not None, 'reporter.acct is null'
 
-	def test_validate_replay(self):
+	def test_validate_reply(self):
 		message_model = {
 			'from': '',
 			'body': '',
@@ -64,10 +64,10 @@ class TestClass:
 		payload = receive_message_model(message_model)
 
 		reporter = report(payload)
-		assert reporter.validate_reply() == False, 'Could not validate on default empty message'
+		assert reporter.validate_reply() == (False, ''), 'Could not validate on default empty message'
 
 		reporter.body = 'Y'
-		assert reporter.validate_reply() == [True, 'Confirmed'], 'Could not validate a message of Y'
+		assert reporter.validate_reply() == (True, 'Confirmed'), 'Could not validate a message of Y'
 
 		reporter.body = 'N'
-		assert reporter.validate_reply() == [False, 'Cancelled'], 'Could not validate a message of N'
+		assert reporter.validate_reply() == (True, 'Cancelled'), 'Could not validate a message of N'

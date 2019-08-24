@@ -95,13 +95,12 @@ class sms:
 
 	def send(self, sms_object):
 		client = Client(sms_object.acct, sms_object.token)
-		#import ipdb as pdb; pdb.set_trace()
 		#print("Make sure to set the correct ngrok status_callback URL\n ngrok http 5000")
 		message = client.messages.create(
 			to = "+1" + sms_object.patient_number,
 			from_ = "+1" + sms_object.doctor_number,
 			body = sms_object.message,
-			status_callback="https://35b9ed97.ngrok.io/receive_message_status")
+			status_callback="https://70c8acbc.ngrok.io/receive_message_status")
 
 		return message.sid
 
