@@ -1,4 +1,3 @@
-import ipdb as pdb
 import json
 from twilio.rest import Client
 from sms_v2.utilities import dev as util

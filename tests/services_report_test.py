@@ -7,11 +7,11 @@ from sms_v2.models.receive_delivery_status_model import receive_delivery_status_
 class TestClass:
 	def test_deliv_status_initialization(self):
 		deliv_model = {
-			'AccountSid': [''],
-			'MessageFrom': [''],
-			'MessageSid': [''],
-			'MessageStatus': [''],
-			'To': ['']
+			'AccountSid': '',
+			'From': '',
+			'MessageSid': '',
+			'MessageStatus': '',
+			'To': ''
 		}
 
 		payload = receive_delivery_status_model(deliv_model)
@@ -26,7 +26,7 @@ class TestClass:
 			'from': '',
 			'body': '',
 			'to': '',
-			'sid': '',
+			'account_sid': '',
 			'error_code': '',
 			'error_message': '',
 			'num_media': '',
@@ -50,7 +50,7 @@ class TestClass:
 			'from': '',
 			'body': '',
 			'to': '',
-			'sid': '',
+			'account_sid': '',
 			'error_code': '',
 			'error_message': '',
 			'num_media': '',
