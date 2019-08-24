@@ -9,7 +9,7 @@ class sms_send_model(base_model):
 		self.patient_number = payload['patient_number']
 		self.name = payload['name']
 		self.date_created = payload['date_created']
-		self.appointment = { 'date' : payload['appointment']['date'], 'time' : payload['appointment']['time'], 'status' : payload['appointment']['status'], 'fulldate' : '' }
+		self.appointment = { 'date' : payload['appointment']['date'], 'time' : payload['appointment']['time'], 'status' : payload['appointment']['status'], 'fulldate' : '', 'timezone': payload['appointment']['timezone']}
 		self.doctor = payload['doctor']
 		self.message = payload['message']
 		self.doctor_office = payload['doctor_office']
@@ -19,3 +19,4 @@ class sms_send_model(base_model):
 		self.secret_name = payload['secret_name']
 		self.delivery_status = payload['delivery_status']
 		self.message_sid = ''
+		self.scheduled_time = payload['scheduled_time']
