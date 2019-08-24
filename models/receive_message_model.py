@@ -1,6 +1,6 @@
 from sms_v2.models.base_model import base_model
 
-class receive_message_model(base_model)
+class receive_message_model(base_model):
 	def __init__(self, payload):
 		self.message_from = payload['from']
 		self.message_body = payload['body']

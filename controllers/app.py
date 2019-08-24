@@ -56,10 +56,15 @@ def receive_message_status():
 
 	#	return ('', 204)
 
-	if request.method == 'POST':
+	#if request.method == 'POST':
+	#	import ipdb; ipdb.set_trace()
+	#	receiver = receive(request.json['FormValues'])
+	#	receiver.record_status()
+	
+	if(request.method == 'POST'):
 		import ipdb; ipdb.set_trace()
-		receiver = receive(request.json['FormValues'])
-		receiver.record_status()
+		reporter = report(request.json['FormValues'])
+		reporter.reporter_delivery_status
 
 		return ('', 204)
 
