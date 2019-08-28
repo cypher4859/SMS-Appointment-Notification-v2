@@ -5,9 +5,8 @@ import json
 from flask import Flask
 from flask import request
 from flask import jsonify
-from sms_v2.services.sms_send_service import sms as sms_service_send
+from sms_v2.services.distribute_service import distributor
 from sms_v2.services.sms_report_service import report
-from sms_v2.services.sms_receive_service import receive
 from sms_v2.utilities.helper_functions import dev
 from sms_v2.models.receive_message_model import receive_message_model
 from sms_v2.models.receive_delivery_status_model import receive_delivery_status_model
@@ -74,20 +73,32 @@ def schedule_upload_appts():
 		try:
 			sched_model()'''
 
+#@app.route("/notify_appointments", methods=['POST'])
+#def upload_appts():
+#	results = []
+#	if request.method == 'POST':
+#		collection_of_messages_to_send = request.json
+#		try:
+#			sms_sender = sms_service_send(collection_of_messages_to_send)
+#			res = sms_sender.load()
+#			results.append(res)
+#		except:
+#			results.append("Could not upload the message data!")
+#
+#		final_result = "fuckk"
+#		return ('', 204)
+
+
+
 
 @app.route("/notify_appointments", methods=['POST'])
 def upload_appts():
 	results = []
 	if request.method == 'POST':
 		collection_of_messages_to_send = request.json
-		try:
-			sms_sender = sms_service_send(collection_of_messages_to_send)
-			res = sms_sender.load()
-			results.append(res)
-		except:
-			results.append("Could not upload the message data!")
+		distribute = distributor(collection_of_messages_to_send)
+		distribute.distribute_to_sender()
 
-		final_result = "fuckk"
 		return ('', 204)
 
 

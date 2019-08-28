@@ -16,60 +16,55 @@ class sms:
 	def load(self):
 		try:
 			isValid = self.validate_payload()
-			#Check here if it should be scheduled. If so, pass it to the scheduler service.
-			#The scheduler service should circle back around to this point when its time, then it'll send
-			#If not, continue
-			'''if(self.json_payload['scheduled_time'] != ''):
-				s = scheduler_service(self.json_payload)
-				s.set_time_to_run_job()'''
 			try:
-				for index, message in enumerate(self.json_payload):
-					sms_model = sms_send_model(message)
+				sms_model = sms_send_model(self.json_payload)
+				sms_model.token = self.get_vault_data(sms_model.secret_name, sms_model.acct)
+				sms_model.date_created = self.get_date_created()
+				sms_model.appointment = self.get_utc_appointment_date(sms_model.appointment)
+				#sms_model.message_sid = self.send(sms_model)
 
-					sms_model.token = self.get_vault_data(sms_model.secret_name, sms_model.acct)
-					sms_model.date_created = self.get_date_created()
-					sms_model.appointment = self.get_utc_appointment_date(sms_model.appointment)
-					sms_model.message_sid = self.send(sms_model)
-
-					self.load_message_into_database(sms_model.__dict__)
-					print("Successfully Sent!")
-				return index+1
+				#self.load_message_into_database(sms_model.__dict__)
+				print("Successfully Sent!")
 			except:
 				print("Couldn't Send")
 		except:
 			print("Couldn't sanitize")
-			return
 
 	def validate_payload(self):
 		#return False
 		#check the input
 		#test JSON aginst schema
 		schema = {
-			"type" : "array",
-			"items": {
-				"type": "object",
-				"properties" : {
-					"chart" : {"type" : "string"},
-					"patient_number" : {"type" : "string"},
-					"name" : {"type" : "string"},
-					"date_created" : {"type" : "string"},
-					"appointment" : {
-						"type" : "object",
-						"properties" : {
-							"date" : {"type" : "string"},
-							"time" : {"type" : "string"},
-							"status" : {"type" : "string"},
-							"timezone": {"type" : "string"}
-						}
-					},
-					"doctor" : {"type" : "string"},
-					"message" : {"type" : "string"},
-					"doctor_office" : {"type" : "string"},
-					"doctor_number" : {"type" : "string"},
-					"acct" : {"type" : "string"},
-					"token" : {"type" : "string"},
-					"secret_name" : {"type" : "string"},
-					"delivery_status" : {"type" : "string"},
+			"type": "object",
+			"properties" : {
+				"chart" : {"type" : "string"},
+				"patient_number" : {"type" : "string"},
+				"name" : {"type" : "string"},
+				"date_created" : {"type" : "string"},
+				"appointment" : {
+					"type" : "object",
+					"properties" : {
+						"date" : {"type" : "string"},
+						"time" : {"type" : "string"},
+						"status" : {"type" : "string"},
+						"timezone": {"type" : "string"}
+					}
+				},
+				"doctor" : {"type" : "string"},
+				"message" : {"type" : "string"},
+				"doctor_office" : {"type" : "string"},
+				"doctor_number" : {"type" : "string"},
+				"acct" : {"type" : "string"},
+				"token" : {"type" : "string"},
+				"secret_name" : {"type" : "string"},
+				"delivery_status" : {"type" : "string"},
+				"schedule_time" : {
+					"type" : "object",
+					"properties" : {
+						"date" : {"type" : "string"},
+						"time" : {"type" : "string"},
+						"timezone" : {"type" : "string"}
+					}
 				}
 			},
 		}
