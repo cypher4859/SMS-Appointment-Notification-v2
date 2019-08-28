@@ -5,7 +5,7 @@ class schedule_transformer:
 		assert len(self.time) < 9 and len(self.time) > 4
 
 
-	def transform_time(self):
+	def transform_time_to_schedule_job_format(self):
 		fixed_time = ''
 		for index, unit in enumerate(self.time.split(':')):
 			if(len(unit) < 2):

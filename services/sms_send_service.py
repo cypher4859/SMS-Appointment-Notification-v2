@@ -11,6 +11,7 @@ from jsonschema import validate
 class sms:
 	def __init__(self, payload):
 		self.json_payload = payload
+		self.validate_payload()
 
 	def load(self):
 		try:
