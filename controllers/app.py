@@ -31,12 +31,12 @@ def get_rows():
 def get_appt_confirm_status():
 	'''NOTE:
 	Get the status of all appointments for the client. Optional filter on range.'''
-	pass
+	return ('', 200)
 
 @app.route("/get_message_delivery_status", methods=['GET'])
 def get_message_deliv_status():
 	'''Get the delivery status of all the messages sent out. Optional Filter on range.'''
-	pass
+	return ('', 200)
 
 
 
@@ -47,7 +47,10 @@ def get_message_deliv_status():
 @app.route("/receive_message_status", methods=['POST'])
 def receive_message_status():
 	if(request.method == 'POST'):
-		#print(request.values)
+		print(request.values)
+
+		#This might need to change for true actual shit
+		#deliv_model = receive_delivery_status_model(request.json['FormValues'])
 		deliv_model = receive_delivery_status_model(request.values)
 		reporter = report(deliv_model)
 		reporter.report_delivery_status()

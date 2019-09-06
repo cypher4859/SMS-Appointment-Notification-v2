@@ -46,7 +46,6 @@ class report:
 		reply = self.body
 		acct = self.acct
 
-		import ipdb; ipdb.set_trace()
 		is_valid_response, confirmation = self.validate_reply()
 		if(is_valid_response):
 			#update with Confirmed
