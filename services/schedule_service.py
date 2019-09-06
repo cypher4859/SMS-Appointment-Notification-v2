@@ -11,14 +11,10 @@ class sched_service:
 		self.datetime = datetime_model
 
 
-	def job(self):
-		if(datetime.utcnow().date() == self.get_date()):
-			print('Call up the sms sender...')
-			return schedule.CancelJob
-
 	def set_schedule_time(self):
 		#import ipdb; ipdb.set_trace()
 		schedule.every().day.at(self.get_schedule_time()).do(self.job)
+
 
 	def get_schedule_time(self):
 		#Needs converted to datetime
@@ -26,8 +22,16 @@ class sched_service:
 		dt_obj = date_transform.transform_into_datetime_object()
 
 		orig_time = f'{dt_obj.hour}:{dt_obj.minute}:{dt_obj.second}'
+
 		transformer = schedule_transformer(orig_time)
 		return transformer.transform_time_to_schedule_job_format()
+
+
+	def job(self):
+		if(datetime.utcnow().date() == self.get_date()):
+			print('Call up the sms sender...')
+			return schedule.CancelJob
+	
 
 	def get_date(self):
 		return self.datetime.date()

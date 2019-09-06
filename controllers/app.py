@@ -69,12 +69,14 @@ def receive_sms_reply():
 
 
 ## Doers
-'''@app.route("/schedule_notify_appointments", methods=['POST'])
+@app.route("/schedule_notify_appointments", methods=['POST'])
 def schedule_upload_appts():
 	if(request.method == 'POST'):
 		collection_of_messages = request.json
-		try:
-			sched_model()'''
+		distribute = distributor(collection_of_messages)
+		distribute.distribute_to_scheduler()
+
+		return ('', 204)		
 
 #@app.route("/notify_appointments", methods=['POST'])
 #def upload_appts():
