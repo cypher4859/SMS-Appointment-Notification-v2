@@ -119,4 +119,137 @@ class json_payloads:
 		"Body": "",
 		"Files": None,
 		"MultipartValues": None
-	} 
+	}
+
+
+class test_schedule_cases_jsons:
+	case0 = {
+		"chart": "someChart",
+		"patient_number": "3044446329",
+		"name": "testting",
+		"date_created": "",
+		"appointment": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"status": "Unconfirmed",
+			"timezone": "US/Eastern"
+		},
+		"doctor": "Dr. Strange",
+		"message": "Test new system",
+		"doctor_office": "The Office",
+		"doctor_number": "3047605956",
+		"acct": "AC471e900502c9d036fa8cc7e6a50682e9",
+		"token": "",
+		"secret_name": "childerstaylor",
+		"delivery_status": "",
+		"scheduled_time": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"timezone": "US/Eastern"
+		}
+	}
+
+	case1 = {
+		"chart": "someChart",
+		"patient_number": "3044446329",
+		"name": "testting",
+		"date_created": "",
+		"appointment": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"status": "Unconfirmed",
+			"timezone": "US/Eastern"
+		},
+		"doctor": "Dr. Strange",
+		"message": "Test new system",
+		"doctor_office": "The Office",
+		"doctor_number": "3047605956",
+		"acct": "AC471e900502c9d036fa8cc7e6a50682e9",
+		"token": "",
+		"secret_name": "childerstaylor",
+		"delivery_status": "",
+		"scheduled_time": {
+			"date": "2019-08-25",
+			"time": "11:06pm",
+			"timezone": "US/Eastern"
+		}
+	}
+
+	case2 = {
+		"chart": "someChart",
+		"patient_number": "3044446329",
+		"name": "testting",
+		"date_created": "",
+		"appointment": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"status": "Unconfirmed",
+			"timezone": "US/Eastern"
+		},
+		"doctor": "Dr. Strange",
+		"message": "Test new system",
+		"doctor_office": "The Office",
+		"doctor_number": "3047605956",
+		"acct": "AC471e900502c9d036fa8cc7e6a50682e9",
+		"token": "",
+		"secret_name": "childerstaylor",
+		"delivery_status": "",
+		"scheduled_time": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"timezone": "US/Eastern"
+		}
+	}
+
+	case3 = {
+		"chart": "someChart",
+		"patient_number": "3044446329",
+		"name": "testting",
+		"date_created": "",
+		"appointment": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"status": "Unconfirmed",
+			"timezone": "US/Eastern"
+		},
+		"doctor": "Dr. Strange",
+		"message": "Test new system",
+		"doctor_office": "The Office",
+		"doctor_number": "3047605956",
+		"acct": "AC471e900502c9d036fa8cc7e6a50682e9",
+		"token": "",
+		"secret_name": "childerstaylor",
+		"delivery_status": "",
+		"scheduled_time": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"timezone": "US/Eastern"
+		}
+	}
+
+	case4 = {
+		"chart": "someChart",
+		"patient_number": "3044446329",
+		"name": "testting",
+		"date_created": "",
+		"appointment": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"status": "Unconfirmed",
+			"timezone": "US/Eastern"
+		},
+		"doctor": "Dr. Strange",
+		"message": "Test new system",
+		"doctor_office": "The Office",
+		"doctor_number": "3047605956",
+		"acct": "AC471e900502c9d036fa8cc7e6a50682e9",
+		"token": "",
+		"secret_name": "childerstaylor",
+		"delivery_status": "",
+		"scheduled_time": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"timezone": "US/Eastern"
+		}
+	}
+

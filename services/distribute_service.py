@@ -12,7 +12,7 @@ class distributor:
 			
 
 	def distribute_to_scheduler(self):
-		for index, message in enumerate(self.coollection):
+		for index, message in enumerate(self.collection):
 			a = sched_model(message)
 			b = sched_service(a)
 			b.set_schedule_time()
