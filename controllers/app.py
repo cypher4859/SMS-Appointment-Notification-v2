@@ -47,10 +47,6 @@ def get_message_deliv_status():
 @app.route("/receive_message_status", methods=['POST'])
 def receive_message_status():
 	if(request.method == 'POST'):
-		print(request.values)
-
-		#This might need to change for true actual shit
-		#deliv_model = receive_delivery_status_model(request.json['FormValues'])
 		deliv_model = receive_delivery_status_model(request.values)
 		reporter = report(deliv_model)
 		reporter.report_delivery_status()
@@ -77,23 +73,6 @@ def schedule_upload_appts():
 		distribute.distribute_to_scheduler()
 
 		return ('', 204)		
-
-#@app.route("/notify_appointments", methods=['POST'])
-#def upload_appts():
-#	results = []
-#	if request.method == 'POST':
-#		collection_of_messages_to_send = request.json
-#		try:
-#			sms_sender = sms_service_send(collection_of_messages_to_send)
-#			res = sms_sender.load()
-#			results.append(res)
-#		except:
-#			results.append("Could not upload the message data!")
-#
-#		final_result = "fuckk"
-#		return ('', 204)
-
-
 
 
 @app.route("/notify_appointments", methods=['POST'])

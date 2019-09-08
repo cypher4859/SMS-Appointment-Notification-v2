@@ -12,8 +12,8 @@ class sched_service:
 
 
 	def set_schedule_time(self):
-		#import ipdb; ipdb.set_trace()
-		schedule.every().day.at(self.get_schedule_time()).do(self.job)
+		# Thinking this should be done every second to make sure that the jobs run correctly
+		schedule.every().day.at(self.get_schedule_time()).do(self.job).tag('test-tasks', 'mine')
 
 
 	def get_schedule_time(self):
@@ -31,6 +31,8 @@ class sched_service:
 		if(datetime.utcnow().date() == self.get_date()):
 			print('Call up the sms sender...')
 			return schedule.CancelJob
+		#else:
+		#	assert schedule.clear('test-tasks') is None
 	
 
 	def get_date(self):
@@ -41,3 +43,13 @@ class sched_service:
 		# This requests the transformer to convert the utc date object into a tz aware date object
 		transformer = timezone_transformer(self.datetime, 'US/Eastern')
 		return transformer.transform_utc_to_timezone_object()
+
+	def clear_schedule_time(self):
+		schedule.clear('test-tasks')
+
+	def run_pending_scheduled_jobs(self):
+		while 1:
+			schedule.run_pending()
+			time.sleep(1)
+			if(len(schedule.jobs) is None):
+				exit()

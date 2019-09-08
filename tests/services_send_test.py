@@ -2,6 +2,7 @@
 
 from sms_v2.services.sms_send_service import sms
 from sms_v2.transformers.date_transformer import date as da
+from sms_v2.tests.json_payloads import json_payloads as test_json
 
 import pytest
 
@@ -11,67 +12,26 @@ class TestClass:
 	# everytime I run pytest.
 	# I can however test parts of it, like basically everything except self.send()
 
-	#@pytest.mark.skip
-	#@pytest.mark.great
+	#@pytest.mark.xfail
 	def test_load(self):
 		#This assumes that self.send() and load_message_info_database() are commented out
-		payload = {
-			"chart": "someChart",
-			"patient_number": "3044446329",
-			"name": "testting",
-			"date_created": "",
-			"appointment": {
-				"date": "2019-08-20",
-				"time": "1:06pm",
-				"status": "Unconfirmed",
-				"timezone": "US/Eastern"
-			},
-			"doctor": "Dr. Strange",
-			"message": "Test new system",
-			"doctor_office": "The Office",
-			"doctor_number": "3047605956",
-			"acct": "AC471e900502c9d036fa8cc7e6a50682e9",
-			"token": "",
-			"secret_name": "childerstaylor",
-			"delivery_status": "",
-			"scheduled_time": {
-				"date": "2019-08-20",
-				"time": "1:06pm",
-				"timezone": "US/Eastern"
-			}
-		}
-
-
-		test_object = sms(payload)
+		payload = test_json()
+		test_object = sms(payload.test_notify_json_payload[0])
 		assert test_object.load() is None
 
 
+	#@pytest.mark.xfail
+	def test_negative_load(self):
+		payload = test_json()
+		test_obj = sms(payload.test_negative_sms_sender_json_payload)
+		with pytest.raises(AssertionError):
+			assert test_obj.load is None
 
+
+	#@pytest.mark.xfail
 	def test_validate_payload(self):
-		payload = {
-			"chart": "someChart",
-			"patient_number": "3044446329",
-			"name": "testting",
-			"date_created": "",
-			"appointment": {
-				"date": "2019-08-20",
-				"time": "1:06pm",
-				"status": "Unconfirmed",
-				"timezone": ""
-			},
-			"doctor": "Dr. Strange",
-			"message": "Test new system",
-			"doctor_office": "The Office",
-			"doctor_number": "3047605956",
-			"acct": "AC471e900502c9d036fa8cc7e6a50682e9",
-			"token": "",
-			"secret_name": "childerstaylor",
-			"delivery_status": "",
-			"scheduled_time": ""
-		}
-
-
-		test_object = sms(payload)
+		payload = test_json()
+		test_object = sms(payload.test_notify_json_payload[0])
 		assert test_object.validate_payload() is True
 
 	def test_get_vault_data(self):

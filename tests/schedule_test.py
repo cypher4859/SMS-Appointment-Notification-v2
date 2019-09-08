@@ -13,7 +13,6 @@ class TestClass:
 	cases = test_schedule_cases_jsons
 
 	#@pytest.mark.xfail
-	#@pytest.mark.great
 	def test_time_format_transformation(self):
 		base_example = '23:2:4'
 		trans = schedule_transformer(base_example)
@@ -23,10 +22,7 @@ class TestClass:
 		assert  transformed_time == '23:02:04', 'Cant transform the time correctly. Try again'
 
 	#@pytest.mark.xfail
-	#@pytest.mark.great
 	def test_sched_service_get_utc_schedule_time(self):
-		# ALL of these needs changed!
-
 		z = sched_model(datetime(2019, 8, 25, 15, 41, 19, 821795, tzinfo=pytz.utc))
 		with pytest.raises(AssertionError):
 			assert type(z.obj) is dict, 'The schedule model does not contain a dict'	
@@ -52,7 +48,6 @@ class TestClass:
 		#assert alt4_x.get_schedule_time() == '22:01:09', 'Could not pad zeros at right places'
 
 	#@pytest.mark.xfail
-	#@pytest.mark.great
 	def test_sched_service_get_tzaware_time_from_transformed_time(self):
 		z = sched_model(datetime(2019, 8, 25, 22, 1, 9, 821795, tzinfo=pytz.utc))
 		with pytest.raises(AssertionError):
@@ -67,3 +62,28 @@ class TestClass:
 
 		x = sched_service(z)
 		assert x.get_schedule_time() == '13:06:00'
+
+
+	#@pytest.mark.skip
+	#@pytest.mark.xfail
+	def test_scheduler_service_get_schedule_time(self):
+		z = sched_model(self.cases.case0)
+		z.obj['scheduled_time']['date'] = '2019-09-20'
+		z.obj['scheduled_time']['time'] = '12:20am'
+		assert type(z.obj) is dict
+
+		x = sched_service(z)
+		assert x.get_schedule_time() == '00:20:00'
+
+
+	#@pytest.mark.skip
+	@pytest.mark.xfail
+	def test_scheduler_service_set_schedule_time(self):
+		z = sched_model(self.cases.case0)
+		z.obj['scheduled_time']['date'] = '2019-09-08'
+		z.obj['scheduled_time']['time'] = '12:35am'
+		assert type(z.obj) is dict
+
+		x = sched_service(z)
+		x.set_schedule_time()
+		#x.run_pending_scheduled_jobs()

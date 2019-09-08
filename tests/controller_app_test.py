@@ -38,11 +38,11 @@ class TestClass:
 		assert self.client.post('/receive_sms_reply', data=json.dumps(self.test_payloads.test_receive_sms_reply_json_payload), headers=self.headers).status_code == 204
 
 
-	@pytest.mark.skip
+	#@pytest.mark.xfail
 	def test_receive_message_status(self):
-		assert self.client.post('/receive_message_status', data=json.dumps(self.test_payloads.test_receive_sms_status_json_payload), headers=self.headers).status_code == 204
+		assert self.client.post('/receive_message_status', data=self.test_payloads.test_receive_sms_status_json_payload).status_code == 204
 
-	@pytest.mark.skip
+	#@pytest.mark.xfail
 	def test_notify_appointments(self):
 		assert self.client.post('/notify_appointments', data=json.dumps(self.test_payloads.test_notify_json_payload), headers=self.headers).status_code == 204
  

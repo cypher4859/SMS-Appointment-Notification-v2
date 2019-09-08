@@ -56,70 +56,44 @@ class json_payloads:
 		}
 	}]
 
-	test_receive_sms_status_json_payload = {
-		"Timestamp": "2019-08-13T01:10:56.458401Z",
-		"Method": "POST",
-		"RemoteAddr": "54.224.52.11",
-		"ID": 368790053,
-		"Headers": {
-			"Accept": [
-				"*/*"
-			],
-			"Cache-Control": [
-				"max-age=259200"
-			],
-			"Content-Length": [
-				"237"
-			],
-			"Content-Type": [
-				"application/x-www-form-urlencoded; charset=utf-8"
-			],
-			"Host": [
-				"ptsv2.com"
-			],
-			"User-Agent": [
-				"TwilioProxy/1.1"
-			],
-			"X-Cloud-Trace-Context": [
-				"652f20f755632e340ea127b0a8c6a1fd/3316521581287268365"
-			],
-			"X-Google-Apps-Metadata": [
-				"domain=gmail.com,host=ptsv2.com"
-			],
-			"X-Twilio-Signature": [
-				"gC6e/93+SYiWNWcQpLTpXPsOMwc="
-			]
+	test_negative_sms_sender_json_payload = {
+		"chart": "someChart",
+		"patient_number": "3044446329",
+		"name": "testting",
+		"date_created": "",
+		"appointment": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"status": "Unconfirmed",
+			"timezone": ""
 		},
-		"FormValues": {
-			"AccountSid": [
-				"AC471e900502c9d036fa8cc7e6a50682e9"
-			],
-			"ApiVersion": [
-				"2010-04-01"
-			],
-			"From": [
-				"+13047605956"
-			],
-			"MessageSid": [
-				"SMe477edca2300404a96a1bead62ee0c87"
-			],
-			"MessageStatus": [
-				"delivered"
-			],
-			"SmsSid": [
-				"SMe477edca2300404a96a1bead62ee0c87"
-			],
-			"SmsStatus": [
-				"delivered"
-			],
-			"To": [
-				"+13044446329"
-			]
-		},
-		"Body": "",
-		"Files": None,
-		"MultipartValues": None
+		"doctor": "Dr. Strange",
+		"message": "Test new system",
+		"doctor_office": "The Office",
+		"doctor_number": "3047605956",
+		"acct": "AC471e900502c9d036fa8cc7e6a50682e9",
+		"token": "",
+		"secret_name": "childerstaylor",
+		"delivery_status": "",
+		"scheduled_time": {
+			"date": "2019-08-20",
+			"time": "1:06pm",
+			"timezone": "US/Eastern"
+		}
 	}
+
+	test_receive_sms_status_json_payload = {
+		"SmsSid": "SMabd7164713414a9e821beb4456c98b82",
+		"SmsStatus": "delivered",
+		"MessageStatus": "delivered",
+		"To": "+13044446329",
+		"MessageSid": "SMabd7164713414a9e821beb4456c98b82",
+		"AccountSid": "AC471e900502c9d036fa8cc7e6a50682e9",
+		"From": "+13047605956",
+		"ApiVersion": "2010-04-01"
+	}
+
+
 
 
 class test_schedule_cases_jsons:
