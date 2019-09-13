@@ -8,6 +8,7 @@ class generic_date:
 		self.time = d['time']
 		self.timezone = d['timezone']
 
+	# This should use the correct timezone to set the time.
 	def transform_into_datetime_object(self):
 		date = datetime.strptime(self.date, '%Y-%m-%d')
 		time = datetime.strptime(self.time, '%I:%M%p')

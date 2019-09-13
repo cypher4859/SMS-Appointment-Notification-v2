@@ -1,5 +1,6 @@
 from sms_v2.services.sms_send_service import sms
 from sms_v2.services.schedule_service import sched_service
+from sms_v2.models.schedule_model import sched_model
 
 class distributor:
 	def __init__(self, collection):
