@@ -46,10 +46,3 @@ class sched_service:
 
 	def clear_schedule_time(self):
 		schedule.clear('test-tasks')
-
-	def run_pending_scheduled_jobs(self):
-		while 1:
-			schedule.run_pending()
-			time.sleep(1)
-			if(len(schedule.jobs) is None):
-				exit()

@@ -2,6 +2,7 @@
 
 import time
 import json
+import schedule
 from flask import Flask
 from flask import request
 from flask import jsonify
@@ -10,6 +11,7 @@ from sms_v2.services.sms_report_service import report
 from sms_v2.utilities.helper_functions import dev
 from sms_v2.models.receive_message_model import receive_message_model
 from sms_v2.models.receive_delivery_status_model import receive_delivery_status_model
+
 
 app = Flask(__name__)
 
@@ -87,4 +89,5 @@ def upload_appts():
 
 
 if(__name__ == '__main__'):
-    app.run(host="0.0.0.0", debug=True)
+	schedule.run_continuously()
+	app.run(host="0.0.0.0", debug=True)
