@@ -35,7 +35,7 @@ class TestClass:
 
 	#pytest.mark.xfail
 	def test_receive_sms_reply(self):
-		assert self.client.post('/receive_sms_reply', data=json.dumps(self.test_payloads.test_receive_sms_reply_json_payload), headers=self.headers).status_code == 204
+		assert self.client.post('/receive_sms_reply', data=json.dumps(self.test_payloads.test_receive_sms_reply_json_payload), headers=self.test_payloads.headers).status_code == 204
 
 
 	#@pytest.mark.xfail
@@ -44,5 +44,5 @@ class TestClass:
 
 	#@pytest.mark.xfail
 	def test_notify_appointments(self):
-		assert self.client.post('/notify_appointments', data=json.dumps(self.test_payloads.test_notify_json_payload), headers=self.headers).status_code == 204
+		assert self.client.post('/notify_appointments', data=json.dumps(self.test_payloads.test_notify_json_payload), headers=self.test_payloads.headers).status_code == 204
  

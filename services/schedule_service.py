@@ -11,9 +11,20 @@ class sched_service:
 		self.datetime = datetime_model
 
 
+	# Set like this it will set the job to run literally one day from now.
+	# Setting this to run every minute and checking with accuracy down to the minute would do well.
+	# Also. I thought I set schedule to run continuously?? Ahh, I did. Its set in the if __name__ in the controller.
+	# 
+	# Should we check for whether the time is set for today?
+	# Conclusion: If the scheduled date is for today then schedule it for every minute, else if for date in future
+	# run the scheduler job every day until that particular point
+	#
+	# This still doesn't solve the conditional statement in the job. We need to check with less degree of accuracy
+	# than millisecond. Needs to be at the minute mark. I think. Try the every().miunte.at method first (checking for
+	# job scheduled for today) first, it might show that its okay.
 	def set_schedule_time(self):
 		# Thinking this should be done every second to make sure that the jobs run correctly
-		schedule.every().day.at(self.get_schedule_time()).do(self.job).tag('test-tasks', 'mine')
+		schedule.every().minute.at(':00').do(self.job).tag('test-tasks', 'mine')
 
 
 	def get_schedule_time(self):
@@ -26,18 +37,32 @@ class sched_service:
 		transformer = schedule_transformer(orig_time)
 		return transformer.transform_time_to_schedule_job_format()
 
+	# The datetime attribute needs to be a datetime function for this to work.
+	# There should be a check to ensure that datetime is what gets inputted.
+	def get_schedule_date(self):
+		#Needs converted to datetime
+		date_transform = generic_date(self.datetime.__dict__['obj']['scheduled_time'])
+		dt_obj = date_transform.transform_into_datetime_object()
+
+		orig_time = f'{dt_obj.year}-{dt_obj.month}-{dt_obj.day}'
+
+
 
 	def job(self):
-		if(datetime.utcnow().date() == self.get_date()):
+		# Get the current hour and current minute in utc
+		desired_day = get_schedule_date() # Return in Y-m-d
+		current_day = datetime.utcnow().strftime('%Y-%m-%d')
+
+		t = get_schedule_time() # return time in HH:MM:SS
+		desired_hour_and_minute = t.split(':')[0] + ':' + t.split(':')[1] # Filter to HH:MM
+		current_hour_and_current_min = datetime.utcnow().strftime('%H:%M') # return in HH:MM
+
+		if(current_day == desired_day and current_hour_and_current_min == desired_hour_and_minute):
 			print('Call up the sms sender...')
+			with open('test_file', +rw) as f:
+				f.write(f"Current datetime is: {datetime.now()}")
 			return schedule.CancelJob
-		#else:
-		#	assert schedule.clear('test-tasks') is None
-	
-
-	def get_date(self):
-		return self.datetime.date()
-
+		
 
 	def get_tz_aware_schedule_time(self):
 		# This requests the transformer to convert the utc date object into a tz aware date object
