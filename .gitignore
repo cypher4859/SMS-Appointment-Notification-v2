@@ -143,5 +143,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# open vim files
+*.swp
+
 # End of https://www.gitignore.io/api/linux,python
 

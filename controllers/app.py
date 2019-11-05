@@ -2,15 +2,16 @@
 
 import time
 import json
+import schedule
 from flask import Flask
 from flask import request
 from flask import jsonify
-from sms_v2.services.sms_send_service import sms as sms_service_send
+from sms_v2.services.distribute_service import distributor
 from sms_v2.services.sms_report_service import report
-from sms_v2.services.sms_receive_service import receive
 from sms_v2.utilities.helper_functions import dev
 from sms_v2.models.receive_message_model import receive_message_model
 from sms_v2.models.receive_delivery_status_model import receive_delivery_status_model
+
 
 app = Flask(__name__)
 
@@ -32,12 +33,12 @@ def get_rows():
 def get_appt_confirm_status():
 	'''NOTE:
 	Get the status of all appointments for the client. Optional filter on range.'''
-	pass
+	return ('', 200)
 
 @app.route("/get_message_delivery_status", methods=['GET'])
 def get_message_deliv_status():
 	'''Get the delivery status of all the messages sent out. Optional Filter on range.'''
-	pass
+	return ('', 200)
 
 
 
@@ -48,7 +49,6 @@ def get_message_deliv_status():
 @app.route("/receive_message_status", methods=['POST'])
 def receive_message_status():
 	if(request.method == 'POST'):
-		#print(request.values)
 		deliv_model = receive_delivery_status_model(request.values)
 		reporter = report(deliv_model)
 		reporter.report_delivery_status()
@@ -66,23 +66,28 @@ def receive_sms_reply():
 
 
 
-
 ## Doers
+@app.route("/schedule_notify_appointments", methods=['POST'])
+def schedule_upload_appts():
+	if(request.method == 'POST'):
+		collection_of_messages = request.json
+		distribute = distributor(collection_of_messages)
+		distribute.distribute_to_scheduler()
+
+		return ('', 204)		
+
+
 @app.route("/notify_appointments", methods=['POST'])
 def upload_appts():
 	results = []
 	if request.method == 'POST':
 		collection_of_messages_to_send = request.json
-		try:
-			sms_sender = sms_service_send(collection_of_messages_to_send)
-			res = sms_sender.load()
-			results.append(res)
-		except:
-			results.append("Could not upload the message data!")
+		distribute = distributor(collection_of_messages_to_send)
+		distribute.distribute_to_sender()
 
-		final_result = "fuckk"
 		return ('', 204)
 
 
 if(__name__ == '__main__'):
-    app.run(host="0.0.0.0", debug=True)
+	schedule.run_continuously()
+	app.run(host="0.0.0.0", debug=True)

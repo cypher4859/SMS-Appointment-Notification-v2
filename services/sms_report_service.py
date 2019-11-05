@@ -26,27 +26,12 @@ class report:
 		d = dev()
 		d.update_message_delivery_status(self.sms_sid, self.status, self.acct)
 
-	'''def report_appointment_status(self, patient, message, doctor_office_number, acct_sid):
-		patient_number = patient[2:]
-		office_phone_number = doctor_office_number[2:]
-		reply = message
-		acct = acct_sid
-
-		#import ipdb; ipbd.set_trace()
-		is_valid_response, confirmation = self.validate_reply(reply)
-		if(is_valid_response):
-			#update with Confirmed
-			d = dev()
-			d.confirm_appt_status(patient_number, office_phone_number, confirmation, acct)
-	'''
-
 	def report_appointment_status(self):
 		patient_number = self.fro[2:]
 		office_phone_number = self.to[2:]
 		reply = self.body
 		acct = self.acct
 
-		import ipdb; ipdb.set_trace()
 		is_valid_response, confirmation = self.validate_reply()
 		if(is_valid_response):
 			#update with Confirmed
