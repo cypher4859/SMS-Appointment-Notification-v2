@@ -24,13 +24,13 @@ class sched_service:
 	# job scheduled for today) first, it might show that its okay.
 	def set_schedule_time(self):
 		# Thinking this should be done every second to make sure that the jobs run correctly
-		schedule.every().minute.at(':00').do(self.job).tag('test-tasks', 'mine')
+		schedule.every().minute.do(self.job).tag('test-tasks', 'mine')
 
 
 	def get_schedule_time(self):
 		#Needs converted to datetime
 		date_transform = generic_date(self.datetime.__dict__['obj']['scheduled_time'])
-		dt_obj = date_transform.transform_into_datetime_object()
+		dt_obj = date_transform.transform_into_datetime_object()	# This should convert the desired time into the UTC version
 
 		orig_time = f'{dt_obj.hour}:{dt_obj.minute}:{dt_obj.second}'
 
@@ -45,21 +45,28 @@ class sched_service:
 		dt_obj = date_transform.transform_into_datetime_object()
 
 		orig_time = f'{dt_obj.year}-{dt_obj.month}-{dt_obj.day}'
+		return orig_time
 
 
 
 	def job(self):
-		# Get the current hour and current minute in utc
-		desired_day = get_schedule_date() # Return in Y-m-d
-		current_day = datetime.utcnow().strftime('%Y-%m-%d')
+		# Process current and desired day
+		desired_day = self.get_schedule_date() # Return in Y-m-d in UTC
+		current_day = datetime.utcnow().strftime('%Y-%m-%d') # in UTC
 
-		t = get_schedule_time() # return time in HH:MM:SS
+
+		# Process current and desired time
+		t = self.get_schedule_time() # return time in HH:MM:SS
 		desired_hour_and_minute = t.split(':')[0] + ':' + t.split(':')[1] # Filter to HH:MM
 		current_hour_and_current_min = datetime.utcnow().strftime('%H:%M') # return in HH:MM
 
+		with open('schedule_log_file', 'a+') as log:
+			log.write(f"t's time: {t}")
+			log.write(f"Current day = {current_day}   -   current time = {current_hour_and_current_min}\nDesired day = {desired_day}   -   Desired time = {desired_hour_and_minute}\n")
+
 		if(current_day == desired_day and current_hour_and_current_min == desired_hour_and_minute):
 			print('Call up the sms sender...')
-			with open('test_file', +rw) as f:
+			with open('test_file', 'w+') as f:
 				f.write(f"Current datetime is: {datetime.now()}")
 			return schedule.CancelJob
 		
